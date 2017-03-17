@@ -1,0 +1,103 @@
+#Load the raw data from training and test set.
+train <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
+test <- read.csv("test.csv", header = TRUE, stringsAsFactors = FALSE)
+
+# Add a "Cover_Type" variable to the test set to allow for combining data sets
+test$Cover_Type <- NA
+
+#Combining train and test dataset
+data.combined <- rbind(train, test)
+15120+565892
+
+# A bit about R data types (e.g., factors)
+str(data.combined)
+
+# Take a look at gross COver_Type
+table(data.combined$Cover_Type)
+
+# Distribution across classes
+table(data.combined$Elevation)
+data.cover1 <- subset(data.combined, Cover_Type == 1)
+
+#Loading ggplot
+library("ggplot2")
+
+# Hypothesis - Rich folks survived at a higer rate
+data.cover1$Cover_Type <- as.factor(data.cover1$Cover_Type)
+ggplot(data.cover1, aes(x = Elevation, fill = factor(Cover_Type))) +
+  geom_bar() +
+  geom_histogram(binwidth = 100) +
+  xlab("Elevation") +
+  ylab("Cover_Type") +
+  labs(fill = "Cover_Type")
+
+#Elevation does not seem to predict the cover_Type as the Cover_Type seem
+#to be an overlap.
+
+head(as.character(train$Aspect))
+length(unique(train$Aspect))
+train$Aspect[train$Aspect==0]
+
+# Hypothesis - Rich folks survived at a higer rate
+ggplot(train, aes(x = Aspect, fill = factor(Cover_Type))) +
+  geom_histogram(binwidth = 100) +
+  stat_count(width = 0.5) +
+  facet_wrap(~Cover_Type) +
+  xlab("Elevation") +
+  ylab("Cover_Type") +
+  labs(fill = "Cover_Type")
+
+#Aspect does not seem to predict the cover_Type as the Cover_Type seem
+#to be an overlap.
+
+#Having a look at the slope variable
+head(as.character(train$Slope))
+length(unique(train$Slope))
+ggplot(train, aes(x = Slope, fill = factor(Cover_Type))) +
+  geom_bar() +
+  facet_wrap(~Cover_Type) +
+  geom_histogram(binwidth = 1) +
+  xlab("Slope") +
+  ylab("Count") +
+  labs(fill = "Cover_Type")
+
+#Slope does not seem to predict the cover_Type as the Cover_Type seem
+#to be an overlap.
+head(as.character(train$Horizontal_Distance_To_Hydrology))
+length(unique(train$Horizontal_Distance_To_Hydrology))
+summary(train$Horizontal_Distance_To_Hydrology)
+ggplot(train, aes(x = Horizontal_Distance_To_Hydrology, fill = factor(Cover_Type))) +
+  geom_bar() +
+  facet_wrap(~Cover_Type) +
+  geom_histogram(binwidth = 100) +
+  xlab("Horizontal_Distance_To_Hydrology") +
+  ylab("Count") +
+  labs(fill = "Cover_Type")
+
+#Slope does not seem to predict the cover_Type as the Cover_Type seem
+#to be an overlap.
+
+head(as.character(train$Vertical_Distance_To_Hydrology))
+length(unique(train$Vertical_Distance_To_Hydrology))
+summary(train$Vertical_Distance_To_Hydrology)
+ggplot(train, aes(x = Vertical_Distance_To_Hydrology, fill = factor(Cover_Type))) +
+  geom_bar() +
+  #facet_wrap(~Cover_Type) +
+  geom_histogram(binwidth = 50) +
+  xlab("Horizontal_Distance_To_Hydrology") +
+  ylab("Count") +
+  labs(fill = "Cover_Type")
+
+#Vertical_Distance_To_Hydrology does not seem to predict the cover_Type as the Cover_Type seem
+#to be an overlap.
+
+head(as.character(train$Horizontal_Distance_To_Roadways))
+length(unique(train$Horizontal_Distance_To_Roadways))
+summary(train$Horizontal_Distance_To_Roadways)
+ggplot(train, aes(x = Horizontal_Distance_To_Roadways, fill = factor(Cover_Type))) +
+  geom_bar() +
+  facet_wrap(~Cover_Type) +
+  geom_histogram(binwidth = 500) +
+  xlab("Horizontal_Distance_To_Hydrology") +
+  ylab("Count") +
+  labs(fill = "Cover_Type")
